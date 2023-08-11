@@ -1,0 +1,21 @@
+<body>
+    <h3>{{news.title}}</h3>
+    <p>
+        {{news.created_at}} <br>
+        {{news.content}}
+    </p>
+    <h4> Comments: </h4>
+    {% for comment in comments %}
+    <p>
+        {{comment.content}} <br>
+        Created at: {{comment.created_at}}
+    </p>
+    {% endfor %}
+    <h3>Add comments:</h3>
+    <form action="{% url 'news:add_comments' news.id %}" method="post">
+        {% csrf_token %}
+        <label>Text:</label>
+        <input type="text" name="content"> <br>
+        <input type="submit" value="add"> 
+    </form>
+</body>
