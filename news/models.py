@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import get_list_or_404
 
 
 # Create your models here.
@@ -10,6 +11,9 @@ class News(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def has_comments(self):
+         return self.comment_set.exists() 
     
 class Comment(models.Model):
     content = models.CharField(max_length=100)

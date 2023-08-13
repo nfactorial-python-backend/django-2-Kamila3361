@@ -13,7 +13,7 @@ def all_news(request):
 
 def detail(request, news_id):
     news = get_object_or_404(News, pk=news_id)
-    comments = get_list_or_404(Comment, news=news)
+    comments = Comment.objects.filter(news=news_id).order_by("-created_at").all()
     context = {'news': news, 'comments': comments}
     return render(request, 'news/detail.html', context)
 
