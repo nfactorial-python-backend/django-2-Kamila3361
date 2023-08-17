@@ -1,0 +1,12 @@
+{% extends 'news/base.html' %}
+
+{% block title %}Add news{% endblock %}
+
+{% block content %}
+    <form action="{% url 'news:add_news' %}" method="post">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="add"> 
+    </form>
+{% endblock %}
+    

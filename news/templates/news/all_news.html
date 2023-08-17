@@ -1,21 +1,17 @@
-<body>
-    <h2>News</h2>
+{% extends 'news/base.html' %}
+
+{% block title %}NEWS{% endblock %}
+
+{% block content %}
+    <h2>News:</h2>
     <ob>
-    {% for new in news %}
-    <li>
-        <a href="{% url 'news:detail' new.id %}">
-            {{new.title}}
-        </a>
-    </li>
-    {% endfor %}
-    </ob> <br>
-    <h3>Add news:</h3>
-    <form action="{% url 'news:add_news' %}" method="post">
-        {% csrf_token %}
-        <label>Title:</label>
-        <input type="text" name="title"> <br>
-        <label>Content:</label>
-        <input type="text" name="content"> <br>
-        <input type="submit" value="add"> 
-    </form>
-</body>
+        {% for new in news %}
+        <li>
+            <a href="{% url 'news:detail' new.id %}">
+                {{new.title}}
+            </a>
+        </li>
+        {% endfor %}
+        </ob> <br>
+    <h3><a href="{% url 'news:add_news' %}">Add news</a></h3>
+{% endblock %}

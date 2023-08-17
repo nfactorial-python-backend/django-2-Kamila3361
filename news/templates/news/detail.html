@@ -1,4 +1,8 @@
-<body>
+{% extends 'news/base.html' %}
+
+{% block title %}{{news.title}}{% endblock %}
+
+{% block content %}
     <h3>{{news.title}}</h3>
     <p>
         {{news.created_at}} <br>
@@ -14,8 +18,7 @@
     <h3>Add comments:</h3>
     <form action="{% url 'news:add_comments' news.id %}" method="post">
         {% csrf_token %}
-        <label>Text:</label>
-        <input type="text" name="content"> <br>
+        {{form}}
         <input type="submit" value="add"> 
     </form>
-</body>
+{% endblock %}
