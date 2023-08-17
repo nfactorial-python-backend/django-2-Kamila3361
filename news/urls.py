@@ -1,11 +1,11 @@
 from django.urls import path
 
-from . import views
+from .views import NewsView, DetailVeiw, Add_NewsView, CommentView
 
 app_name = 'news'
 urlpatterns = [
-    path('', views.all_news, name='all_news'),
-    path('<int:news_id>/', views.detail, name='detail'),
-    path('add/', views.add_news, name='add_news'),
-    path('<int:news_id>/add', views.add_comments, name='add_comments'),
+    path('', NewsView.as_view(), name='all_news'),
+    path('<int:news_id>/', DetailVeiw.as_view(), name='detail'),
+    path('add/', Add_NewsView.as_view(), name='add_news'),
+    path('<int:news_id>/add', CommentView.as_view(), name='add_comments'),
 ]
