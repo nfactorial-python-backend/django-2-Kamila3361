@@ -8,12 +8,26 @@
         {{news.created_at}} <br>
         {{news.content}}
     </p>
+
+    {% if user == news.auth or perms.news.delete_news %}
+        <form action="{% url 'news:delete' news.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+    {% endif %}
+
     <h4> Comments: </h4>
     {% for comment in comments %}
     <p>
         {{comment.content}} <br>
         Created at: {{comment.created_at}}
     </p>
+        {% if user == comment.auth or perms.news.delete_comment %}
+            <form action="{% url 'news:delete_comment' news.id comment.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Delete Comment</button>
+            </form>
+        {% endif %}
     {% endfor %}
     <h3>Add comments:</h3>
     <form action="{% url 'news:add_comments' news.id %}" method="post">

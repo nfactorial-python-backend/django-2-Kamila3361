@@ -5,6 +5,18 @@
 </head>
 <body>
 
+    {% if user.is_authenticated %}
+        Авторизован как @{{ user.username }}
+
+        <li>
+            <a href="{% url 'logout' %}">Logout</a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{% url 'login' %}">Login</a>
+        </li>
+    {% endif %}
+
    <main>
        {% block content %}{% endblock %}
    </main>
