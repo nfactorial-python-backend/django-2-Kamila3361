@@ -6,6 +6,11 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializer import NewsSerializer
+
 from .models import News, Comment
 from .forms import NewsForm, CommentForm, SignUpForm
 
@@ -88,4 +93,36 @@ class SignUpView(View):
             login(request, user)
             return redirect(reverse('news:all_news'))
         return render(request, 'registration/sign-up.html', {'form': form})
+    
+class ApiNewsView(APIView):
+    def post(self, request):
+        serializer = NewsSerializer(data=request.data)
+        if serializer.is_valid():
+            news = serializer.save(auth = request.user)
+            return Response(serializer.data)
+        
+    def get(self, request):
+        news = News.objects.all()
+        serializer = NewsSerializer(news, many=True)
+        return Response(serializer.data)
+    
+class api_news_detail(APIView):
+    def get_object(self, pk):
+        try:
+            return News.objects.get(pk=pk)
+        except News.DoesNotExist:
+            return None
+    def get(self, request, pk):
+        news = self.get_object(pk)
+        if news == None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = NewsSerializer(news)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def delete(self, request, pk):
+        news = self.get_object(pk)
+        if news == None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        news.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     

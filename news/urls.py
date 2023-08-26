@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import NewsView, DetailVeiw, Add_NewsView, CommentView, SignUpView, delete_news, delete_comment
+from .views import NewsView, DetailVeiw, Add_NewsView, CommentView, SignUpView, delete_news, delete_comment, ApiNewsView, api_news_detail
 
 app_name = 'news'
 urlpatterns = [
@@ -10,6 +10,8 @@ urlpatterns = [
     path('<int:news_id>/add', CommentView.as_view(), name='add_comments'),
     path('sign-up/', SignUpView.as_view(), name='sign_up'),
     path('<int:news_id>/delete', delete_news, name='delete'),
-    path('<int:news_id>/<int:comment_id>/delete', delete_comment, name='delete_comment')
+    path('<int:news_id>/<int:comment_id>/delete', delete_comment, name='delete_comment'),
+    path('api/news', ApiNewsView.as_view(), name='Apiaddnews'),
+    path('api/news/<int:pk>', api_news_detail.as_view(), name='api_news_detail'),
 
 ]
